@@ -1,4 +1,3 @@
-import { LoggerService } from '@byted-nest/logger';
 import {
   ExceptionFilter,
   Catch,
@@ -10,14 +9,13 @@ import { isArray } from 'lodash';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  constructor(private logger: LoggerService) {}
-
   public catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
 
-    this.logger.log(`responded with status: ${status}: ${exception.message}`);
+    console.error(`responded with status: ${status}: ${exception.message}`);
+    // this.logger.log(`responded with status: ${status}: ${exception.message}`);
     const errResponse = exception.getResponse();
 
     if (typeof errResponse === 'string') {

@@ -13,11 +13,27 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  //   findOne(id: string): Promise<User> {
-  //     return this.usersRepository.findOne({ id: id });
-  //   }
+  findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: {
+        id: Number(id),
+      },
+    });
+  }
+
+  findByUsername(username: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+  }
 
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  async login(username: string, password: string): Promise<void> {
+    await this.findByUsername(username);
   }
 }
